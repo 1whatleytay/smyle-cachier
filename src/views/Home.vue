@@ -108,6 +108,7 @@ export default {
       this.socket.addEventListener('open', () => { console.log('Socket is open!') })
       this.socket.addEventListener('error', () => { console.log('A socket error occured!') })
       this.socket.addEventListener('message', (e) => { this.createOrder(e) })
+      this.socket.addEventListener('close', () => { console.log('Socket closed.') })
     },
 
     createOrder(event) {
@@ -128,10 +129,8 @@ export default {
     },
 
     sendOrderDetails() {
-      if (this.currentOrder.items.length > 0) {
-        this.socket.send({
-          purchases: this.currentOrder.items
-        })
+      if (this.currentOrder.items.length > 0 && !this.currentOrder.lock) {
+        this.socket.send(JSON.stringify(this.currentOrder.items))
         this.currentOrder.lock = true
       }
     },

@@ -15,9 +15,11 @@
         <div class="inline-block w-4 h-4 ml-4 mt-8 rounded-full"
           v-bind:class="{ 'bg-green-500': order.hasPaid, 'bg-gray-700': !order.hasPaid }"></div>
         <div class="flex-auto">
-          <button class="bg-blue-600 mt-5 rounded-lg p-2 float-right text-white"
+          <button class="bg-blue-600 mt-5 rounded-lg p-2 float-right text-white ml-4"
             v-bind:class="{ 'opacity-50 cursor-not-allowed': order.items.length === 0 }"
             @click="sendOrderDetails">Checkout</button>
+          <button class="bg-blue-600 mt-5 rounded-lg p-2 float-right text-white"
+            @click="sendLoyaltyCard">New Card</button>
         </div>
       </div>
 
@@ -87,7 +89,7 @@ export default {
 
   computed: {
     currentOrder() {
-      return this.orders[this.orders.length - 1]
+      return this.orders[0]
     }
   },
 
@@ -119,12 +121,13 @@ export default {
 
       const data = JSON.parse(event.data)
 
-      this.orders.push({
+      this.orders.unshift({
         name: data.name,
         recommendations: user.getters.getMenu,
         items: [],
         lock: false,
         hasPaid: false,
+        hasLoyalty: false,
       })
     },
 
@@ -132,6 +135,12 @@ export default {
       if (this.currentOrder.items.length > 0 && !this.currentOrder.lock) {
         this.socket.send(JSON.stringify(this.currentOrder.items))
         this.currentOrder.lock = true
+      }
+    },
+
+    sendLoyaltyCard() {
+      if (!this.currentOrder.hasLoyalty) {
+        this.socket.send('Loyalty Fredbuck\'s Rewards')
       }
     },
 
@@ -150,7 +159,7 @@ export default {
       }
 
       order.items = order.items.filter(a => a != item)
-      order.recommendations.push(item)
+      order.recommendations.unshift(item)
     }
   }
 }

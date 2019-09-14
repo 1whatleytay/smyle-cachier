@@ -21,8 +21,9 @@
 
       <canvas ref="weekStats" class="my-8"></canvas>
 
+      <div class="text-4xl font-bold text-left">Regulars</div>
       <div v-for="(customer, a) of recentCustomers" v-bind:key="a"
-        class="shadow-2xl my-4 w-full rounded-full flex">
+        class="shadow-xl my-4 w-full rounded-full flex">
         <div class="rounded-full w-32 h-32 mr-4 profile m-2"
           v-bind:style="{ backgroundImage: `url(${customer.picture})` }"></div>
         <div>

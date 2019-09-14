@@ -8,6 +8,7 @@
       <router-link tag="div" to="/home" v-if="cachier">
         <img class="w-16 h-16 float-right cursor-pointer" src="./assets/cachier.png">
       </router-link>
+      <img src="./assets/smyle-white.png" alt="Smyle" class="h-16" v-if="settings || cachier"/>
     </div>
     <div v-bind:class="{ 'mb-2': !settings && !cachier, 'mb-16': settings || cachier }">
       <!-- Just Padding -->

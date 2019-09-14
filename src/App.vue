@@ -1,31 +1,73 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="bg-blue-500 w-full nav-z"
+      v-bind:class="{ 'h-2': !settings && !cachier, 'h-16': settings || cachier }">
+      <router-link tag="div" to="/settings" v-if="settings">
+        <img class="w-16 h-16 float-right cursor-pointer" src="./assets/settings.png"/>
+      </router-link>
+      <router-link tag="div" to="/home" v-if="cachier">
+        <img class="w-16 h-16 float-right cursor-pointer" src="./assets/cachier.png">
+      </router-link>
     </div>
     <router-view/>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</style>
+
+<style>
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Manjari&display=swap'); */
+
+div {
+  font-family: 'Helvetica', sans-serif;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.nav-z {
+  top: 0px;
+
+  position: fixed;
+  z-index: 10;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.cold-gray {
+  background-color: #D8D8E8;
+}
+
+.warm-gray {
+  background-color: #F0E8E2;
+}
+
+.bg-plus {
+  background-image: url('./assets/plus.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.bg-minus {
+  background-image: url('./assets/minus.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 </style>
+
+<script>
+import nav from './scripts/nav'
+
+export default {
+  name: 'App',
+
+  computed: {
+    settings() {
+      return nav.getters.hasSettings
+    },
+    cachier() {
+      return nav.getters.hasCachier
+    }
+  }
+}
+</script>

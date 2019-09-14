@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-8">
+  <div class="mt-32">
     <div class="text-center" v-if="orders.length === 0">
       <div class="text-5xl font-bold">Welcome {{ name }}!</div>
       <div class="text-2xl" @click="test">Start the day by having one of your customers approach the camera.</div>
@@ -14,9 +14,14 @@
         <div class="text-5xl font-bold mb-4">{{ order.name }}</div>
         <div class="inline-block w-4 h-4 ml-4 mt-8 rounded-full"
           v-bind:class="{ 'bg-green-500': order.hasPaid, 'bg-gray-700': !order.hasPaid }"></div>
+        <div class="flex-auto">
+          <button class="bg-blue-600 mt-5 rounded-lg p-2 float-right text-white"
+            v-bind:class="{ 'opacity-50 cursor-not-allowed': order.items.length === 0 }"
+            @click="sendOrderDetails">Checkout</button>
+        </div>
       </div>
 
-      <div class="mb-4" v-if="order.items.length > 0">
+      <div class="mb-4" v-if="order.items.length > 0" v-bind:class="{ 'opacity-50': order.lock }">
         <div class="text-xl font-bold">Items</div>
         <div class="border rounded-lg">
           <div v-for="(item, b) of order.items" v-bind:key="b"
@@ -31,7 +36,7 @@
         </div>
       </div>
 
-      <div v-if="order.recommendations.length > 0">
+      <div v-if="order.recommendations.length > 0 && !order.lock">
         <div class="text-xl font-bold">Recommendations</div>
         <div class="border rounded-lg">
           <div v-for="(item, b) of order.recommendations" v-bind:key="b"
@@ -74,40 +79,77 @@ export default {
     nav.commit('setCachier', false)
   },
 
+  beforeDestroy() {
+    if (this.socket) {
+      this.socket.close()
+    }
+  },
+
+  computed: {
+    currentOrder() {
+      return this.orders[this.orders.length - 1]
+    }
+  },
+
   methods: {
     test() {
       this.orders.push({
         name: 'Jimmy John',
         items: [ ],
         recommendations: user.getters.getMenu,
-        hasPaid: false
+        lock: false,
+        hasPaid: false,
       })
     },
 
     connect() {
       this.socket = new WebSocket('ws://34.66.144.105/cashier')
 
-      // () => {} is used for implicit this. Screw bind!
       this.socket.addEventListener('open', () => { console.log('Socket is open!') })
       this.socket.addEventListener('error', () => { console.log('A socket error occured!') })
       this.socket.addEventListener('message', (e) => { this.createOrder(e) })
     },
 
     createOrder(event) {
+      if (event.data === 'Success.') {
+        this.currentOrder.hasPaid = true
+        return
+      }
+
       const data = JSON.parse(event.data)
 
       this.orders.push({
         name: data.name,
-        recommendations: user.getters.getMenu
+        recommendations: user.getters.getMenu,
+        items: [],
+        lock: false,
+        hasPaid: false,
       })
     },
 
+    sendOrderDetails() {
+      if (this.currentOrder.items.length > 0) {
+        this.socket.send({
+          purchases: this.currentOrder.items
+        })
+        this.currentOrder.lock = true
+      }
+    },
+
     makeOrder(order, item) {
+      if (order.lock) {
+        return
+      }
+
       order.recommendations = order.recommendations.filter(a => a != item)
       order.items.push(item)
     },
 
     dropOrder(order, item) {
+      if (order.lock) {
+        return
+      }
+
       order.items = order.items.filter(a => a != item)
       order.recommendations.push(item)
     }

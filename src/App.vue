@@ -9,6 +9,9 @@
         <img class="w-16 h-16 float-right cursor-pointer" src="./assets/cachier.png">
       </router-link>
     </div>
+    <div v-bind:class="{ 'mb-2': !settings && !cachier, 'mb-16': settings || cachier }">
+      <!-- Just Padding -->
+    </div>
     <router-view/>
   </div>
 </template>

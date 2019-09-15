@@ -8,7 +8,9 @@
       <router-link tag="div" to="/home" v-if="cachier">
         <img class="w-16 h-16 float-right cursor-pointer" src="./assets/cachier.png">
       </router-link>
-      <img src="./assets/smyle-white.png" alt="Smyle" class="h-16" v-if="settings || cachier"/>
+      <router-link tag="div" to="/" v-if="settings || cachier">
+        <img src="./assets/smyle-white.png" alt="Smyle" class="h-16 cursor-pointer"/>
+      </router-link>
     </div>
     <div v-bind:class="{ 'mb-2': !settings && !cachier, 'mb-16': settings || cachier }">
       <!-- Just Padding -->
@@ -26,9 +28,11 @@
 <style>
 /* @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Manjari&display=swap'); */
+@import url('https://fonts.googleapis.com/css?family=PT+Serif&display=swap');
 
 div {
-  font-family: 'Helvetica', sans-serif;
+  /* font-family: 'Helvetica', sans-serif; */
+  font-family: 'PT Serif', serif;
 }
 
 .nav-z {

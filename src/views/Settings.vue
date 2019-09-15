@@ -73,6 +73,7 @@
 
 <script>
 import Chart from 'chart.js'
+import axios from 'axios'
 
 import nav from '../scripts/nav'
 
@@ -113,25 +114,31 @@ export default {
   },
 
   mounted() {
-    this.updateRevenueGraph()
+    axios.get('http://34.66.144.105/daily').then(request => {
+      console.log({ data: request.data })
+      this.revenues[this.revenues.length - 1] += request.data.revenue / 100
+      this.numberOfSales[this.numberOfSales.length - 1] += request.data.sales
 
-    this.intervalRevenue = setInterval(() => {
-      if (this.currentRevenue < this.revenueToday) {
-        this.currentRevenue += this.revenueToday / 100
-      } else {
-        clearInterval(this.intervalRevenue)
-        this.currentRevenue = this.revenueToday
-      }
-    }, 10)
+      this.updateRevenueGraph()
 
-    this.intervalSales = setInterval(() => {
-      if (this.currentSales < this.salesToday) {
-        this.currentSales += this.salesToday / 100
-      } else {
-        clearInterval(this.intervalSales)
-        this.currentSales = this.salesToday
-      }
-    }, 10)
+      this.intervalRevenue = setInterval(() => {
+        if (this.currentRevenue < this.revenueToday) {
+          this.currentRevenue += this.revenueToday / 100
+        } else {
+          clearInterval(this.intervalRevenue)
+          this.currentRevenue = this.revenueToday
+        }
+      }, 10)
+
+      this.intervalSales = setInterval(() => {
+        if (this.currentSales < this.salesToday) {
+          this.currentSales += this.salesToday / 100
+        } else {
+          clearInterval(this.intervalSales)
+          this.currentSales = this.salesToday
+        }
+      }, 10)
+    })
 
     nav.commit('setSettings', false)
     nav.commit('setCachier', true)

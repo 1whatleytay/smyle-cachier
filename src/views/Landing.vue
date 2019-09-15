@@ -1,7 +1,7 @@
 <template>
   <div class="bg-blue-100">
     <div class="w-full heading-picture"></div>
-    <div class="bg-blue-500 mx-auto w-2/3 rounded-lg lg:-mt-48 -mt-32 mb-16">
+    <div class="bg-blue-500 mx-auto w-2/3 rounded-lg lg:-mt-48 -mt-32 mb-16 rounder">
       <img src="../assets/smyle-white-slogan.png" alt="Smyle" class="mx-auto">
     </div>
     <div class="w-5/6 mx-auto flex flex-wrap mb-16">
@@ -45,15 +45,12 @@
       <img src="../assets/rocket.svg" alt="Fast" class="w-full lg:w-3/5"/>
       <div class="w-full lg:w-2/5 bg-white rounded-lg p-4 text-2xl">
         <div class="text-center text-5xl font-bold mb-8">Skyrocket your business.</div>
-        Help your business grow with Smyle's builtin integration with many different tools.
+        Help your business grow with Smyle's builtin monitoring tools.
         <p class="mt-6">
           Paying is as simple as looking, ordering and smiling. Our software walks you through it. Experience some of the quickest and easiest payments of your life.
         </p>
         <p class="mt-6">
           Business analytics allows you to know your customer before you ever talk to them. Recommend and fine tune your experience to each individual.
-        </p>
-        <p class="mt-6">
-          Get feedback directly from your customers through <a class="text-blue-500 hover:underline" href="https://www.surveymonkey.com/">SurveyMonkey</a> integration.
         </p>
       </div>
     </div>
@@ -66,6 +63,10 @@
 </template>
 
 <style>
+.rounder {
+  border-radius: 1rem;
+}
+
 .heading-picture {
   background-image: url(../assets/leadpic.jpg);
   background-size: cover;
@@ -82,7 +83,7 @@ export default {
 
   mounted() {
     nav.commit('setSettings', false)
-    nav.commit('setCachier', false)
+    nav.commit('setCashier', false)
   }
 }
 </script>

@@ -1,18 +1,18 @@
 <template>
   <div id="app">
     <div class="bg-blue-500 w-full nav-z"
-      v-bind:class="{ 'h-2': !settings && !cachier, 'h-16': settings || cachier }">
+      v-bind:class="{ 'h-2': !settings && !cashier, 'h-16': settings || cashier }">
       <router-link tag="div" to="/settings" v-if="settings">
         <img class="w-16 h-16 float-right cursor-pointer" src="./assets/settings.png"/>
       </router-link>
-      <router-link tag="div" to="/home" v-if="cachier">
-        <img class="w-16 h-16 float-right cursor-pointer" src="./assets/cachier.png">
+      <router-link tag="div" to="/home" v-if="cashier">
+        <img class="w-16 h-16 float-right cursor-pointer" src="./assets/cashier.png">
       </router-link>
-      <router-link tag="div" to="/" v-if="settings || cachier">
+      <router-link tag="div" to="/" v-if="settings || cashier">
         <img src="./assets/smyle-white.png" alt="Smyle" class="h-16 cursor-pointer"/>
       </router-link>
     </div>
-    <div v-bind:class="{ 'mb-2': !settings && !cachier, 'mb-16': settings || cachier }">
+    <div v-bind:class="{ 'mb-2': !settings && !cashier, 'mb-16': settings || cashier }">
       <!-- Just Padding -->
     </div>
     <router-view/>
@@ -73,8 +73,8 @@ export default {
     settings() {
       return nav.getters.hasSettings
     },
-    cachier() {
-      return nav.getters.hasCachier
+    cashier() {
+      return nav.getters.hasCashier
     }
   }
 }

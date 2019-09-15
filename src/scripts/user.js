@@ -17,10 +17,10 @@ export default new Vuex.Store({
     ]
   },
   mutations: {
-    logIn(state, name, menu) {
+    logIn(state, name) {
       state.loggedIn = true
       state.name = name
-      state.menu = menu
+      // state.menu = menu
     }
   },
   getters: {

@@ -30,7 +30,7 @@ export default {
     }
 
     nav.commit('setSettings', false)
-    nav.commit('setCachier', false)
+    nav.commit('setCashier', false)
   },
   
   methods: {

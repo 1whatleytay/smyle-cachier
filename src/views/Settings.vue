@@ -141,7 +141,7 @@ export default {
     })
 
     nav.commit('setSettings', false)
-    nav.commit('setCachier', true)
+    nav.commit('setCashier', true)
   },
 
   computed: {

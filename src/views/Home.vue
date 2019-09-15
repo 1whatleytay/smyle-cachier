@@ -85,7 +85,7 @@ export default {
     this.connect()
 
     nav.commit('setSettings', true)
-    nav.commit('setCachier', false)
+    nav.commit('setCashier', false)
   },
 
   beforeDestroy() {
@@ -102,7 +102,7 @@ export default {
 
   methods: {
     test() {
-      this.orders.push({
+      this.orders.unshift({
         name: 'Jimmy John',
         items: [ ],
         recommendations: user.getters.getMenu,

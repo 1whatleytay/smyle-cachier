@@ -6,15 +6,15 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     settings: false,
-    cachier: false,
+    cashier: false,
   },
   mutations: {
     setSettings(state, value) {
       state.settings = value
     },
 
-    setCachier(state, value) {
-      state.cachier = value
+    setCashier(state, value) {
+      state.cashier = value
     }
   },
   getters: {
@@ -22,8 +22,8 @@ export default new Vuex.Store({
       return state.settings
     },
 
-    hasCachier(state) {
-      return state.cachier
+    hasCashier(state) {
+      return state.cashier
     }
   }
 })
